@@ -18,7 +18,10 @@ export const getProgram = async (req, res) => {
     return res.status(404).send("No post with that id");
 
   try {
-    const program = await Program.findById(_id);
+    const program = await Program.findById(_id).populate({
+      path: "events",
+      select: "name duration",
+    });
     res.status(201).json(program);
   } catch (error) {
     res.status(409).json({
@@ -45,7 +48,7 @@ export const updateProgram = async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).send("No post with that id");
+    return res.status(404).send("No program with that id");
 
   const program = { ...req.body };
   const updatedProgram = await Program.findByIdAndUpdate(_id, program, {
@@ -58,8 +61,15 @@ export const deleteProgram = async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).send("No post with that id");
+    return res.status(404).send("No program with that id");
 
-  await Program.findByIdAndRemove(_id);
+  const result = await Program.findByIdAndRemove(_id);
+  if (!result) return res.status(404).send("No program with that id");
+
   res.json({ message: "program deleted succesfully" });
+};
+
+export const deleteAllPrograms = async (req, res) => {
+  await Program.remove({});
+  res.json({ message: "All programs deleted succesfully" });
 };

@@ -7,7 +7,7 @@ const ProgramSchema = mongoose.Schema(
       type: String,
       maxlength: [
         5,
-        "A abbreviation name must have less or equal 5 characters",
+        "An abbreviation name must have less or equal 5 characters",
       ],
     },
     programType: String,
@@ -25,17 +25,19 @@ const ProgramSchema = mongoose.Schema(
       type: mongoose.Schema.ObjectId,
       ref: "Users",
     },
-    manager: {
-      type: mongoose.Schema.ObjectId,
-      ref: "Users",
-    },
+    manager: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Users",
+      },
+    ],
+    students: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Users",
+      },
+    ],
     schoolYear: Number,
-    // events: [
-    //   {
-    //     type: mongoose.Schema.ObjectId,
-    //     ref: "Events",
-    //   },
-    // ],
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -48,12 +50,12 @@ const ProgramSchema = mongoose.Schema(
   }
 );
 
-//DOCUMENT MIDDLEWARE
-ProgramSchema.pre("save", function (next) {
-  this.processTime = Date.now();
-  next();
+ProgramSchema.virtual("events", {
+  ref: "Events",
+  localField: "_id",
+  foreignField: "program",
 });
 
-const Program = mongoose.model("Program", ProgramSchema);
+const Program = mongoose.model("Programs", ProgramSchema);
 
 export default Program;

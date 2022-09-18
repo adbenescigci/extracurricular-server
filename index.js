@@ -5,6 +5,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import programRoutes from "./routes/programs.js";
+import eventRoutes from "./routes/events.js";
+import userRoutes from "./routes/users.js";
 
 const app = express();
 
@@ -14,6 +16,8 @@ app.use(bodyParser.urlencoded({ limit: "32mb", extended: true }));
 app.use(cors());
 
 app.use("/programs", programRoutes);
+app.use("/events", eventRoutes);
+app.use("/users", userRoutes);
 
 const PORT = process.env.PORT || 5000;
 const URL = process.env.CONNECTION_URL.replace(
