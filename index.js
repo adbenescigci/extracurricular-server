@@ -19,6 +19,10 @@ app.use("/programs", programRoutes);
 app.use("/events", eventRoutes);
 app.use("/users", userRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Welcome to Extracurricular API");
+});
+
 const PORT = process.env.PORT || 5000;
 const URL = process.env.CONNECTION_URL.replace(
   "<password>",
