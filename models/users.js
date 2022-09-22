@@ -14,8 +14,8 @@ const UserSchema = mongoose.Schema(
     schoolLevel: {
       type: String,
       enum: {
-        values: ["elementary", "middle", "high"],
-        message: "School Level is either : elementary, middle, high",
+        values: ["Elementary", "Middle", "High"],
+        message: "School Level is either : Elementary, Middle, High",
       },
     },
     // notifications: [
