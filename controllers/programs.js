@@ -10,6 +10,17 @@ export const getAllPrograms = async (req, res) => {
       message: programs.message,
     });
 };
+export const getEnrolledPrograms = async (req, res) => {
+  const { id: _id } = req.params;
+  const programs = await Program.find({
+    $or: [{ students: _id }, { manager: _id }, { director: _id }],
+  });
+  if (!programs.message) res.status(200).json({ programs });
+  else
+    res.status(400).json({
+      message: programs.message,
+    });
+};
 
 export const getProgram = async (req, res) => {
   const { id: _id } = req.params;
@@ -33,6 +44,7 @@ export const getProgram = async (req, res) => {
 export const doProgram = async (req, res) => {
   const program = req.body;
   const newProgram = new Program(program);
+  console.log(newProgram);
 
   try {
     await newProgram.save();
@@ -51,6 +63,7 @@ export const updateProgram = async (req, res) => {
     return res.status(404).send("No program with that id");
 
   const program = { ...req.body };
+  console.log(program);
   const updatedProgram = await Program.findByIdAndUpdate(_id, program, {
     new: true,
   });

@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getAllPrograms,
+  getEnrolledPrograms,
   getProgram,
   doProgram,
   updateProgram,
@@ -11,6 +12,7 @@ import {
 const router = express.Router();
 
 router.get("/", getAllPrograms);
+router.get("/enrolled/:id", getEnrolledPrograms);
 router.get("/:id", getProgram);
 router.post("/", doProgram);
 router.patch("/:id", updateProgram);

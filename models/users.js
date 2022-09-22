@@ -36,6 +36,18 @@ const UserSchema = mongoose.Schema(
         ref: "Programs",
       },
     ],
+    teachers: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Users",
+      },
+    ],
+    students: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "Users",
+      },
+    ],
     createdAt: {
       type: Date,
       default: Date.now(),

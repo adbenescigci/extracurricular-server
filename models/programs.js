@@ -11,10 +11,10 @@ const ProgramSchema = mongoose.Schema(
       ],
     },
     programType: String,
-    schoolLevelRecommendation: {
+    level: {
       type: String,
       enum: {
-        values: ["elementary", "middle", "high"],
+        values: ["Elementary", "Middle", "High"],
         message: "School Level is either : elementary, middle, high",
       },
     },

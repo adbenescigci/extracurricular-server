@@ -1,4 +1,6 @@
 import User from "../models/users.js";
+import Program from "../models/programs.js";
+import Event from "../models/events.js";
 import mongoose from "mongoose";
 import { getAll } from "../utils/query.js";
 
@@ -21,12 +23,24 @@ export const getUser = async (req, res) => {
     const user = await User.findById(_id)
       .populate({
         path: "programs",
-        select: "_id name abbreviation duration",
+        select: "_id name abbreviation duration start end",
       })
       .populate({
         path: "events",
         select: "_id name duration",
       });
+    if (user.userType === "admin") {
+      const teachers = await User.find({ userType: "teacher" }).select(
+        "firstName lastName "
+      );
+      user.teachers = teachers;
+    }
+    if (user.userType === "teacher") {
+      const students = await User.find({ userType: "student" }).select(
+        "firstName lastName schoolLevel events"
+      );
+      user.students = students;
+    }
     res.status(201).json(user);
   } catch (error) {
     res.status(409).json({
