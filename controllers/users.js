@@ -34,13 +34,14 @@ export const getUser = async (req, res) => {
         "firstName lastName "
       );
       user.teachers = teachers;
-    }
+    } else user.teachers = undefined;
+
     if (user.userType === "teacher") {
       const students = await User.find({ userType: "student" }).select(
         "firstName lastName schoolLevel events"
       );
       user.students = students;
-    }
+    } else user.students = undefined;
     res.status(201).json(user);
   } catch (error) {
     res.status(409).json({
